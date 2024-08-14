@@ -14,8 +14,8 @@ export class Card {
     @Prop({ type: [String], default: [] })
     type: string[];
 
-    @Prop({ type: [String], default: [] })
-    supertypes: string;
+    @Prop({ type: [String] })
+    supertypes: string[];
 }
 
 export const CardSchema = SchemaFactory.createForClass(Card);
