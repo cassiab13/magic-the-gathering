@@ -15,19 +15,23 @@ export class FilterCardsByColorHandler implements DeckHandler {
     }
 
     async handle(deck: Deck): Promise<void>{
-       while (deck.cards.length < 99) {
-    console.log(deck.commander.colorIdentity)
-    const page = Math.floor(Math.random() * (100 - 1) + 1);
-    const cards = await this.commonRequest.fetchApiCard(page);
-    const filteredCards = cards
-        .filter(card => card.colorIdentity && card.colorIdentity.some(color => deck.commander.colorIdentity.includes(color)));
-deck.cards = deck.cards.slice(0, 99);
-
-    console.log(`Número de cards no deck: ${deck.cards.length}`);
-}
-
-console.log('Deck completo com cards:', deck.cards.length);
-
+        deck.cards = [];
+        const cardsToDeck = (newCards: Card[]) => {
+            const existingIds = new Set(deck.cards.map(card => card.name));
+            const verifiedCards = newCards.filter(card => !existingIds.has(card.name));
+            deck.cards.push(...verifiedCards);
+        };
+   
+        while (deck.cards.length < 99) {
+            const cards = await this.commonRequest.fetchApiCard();
+            const filteredCards = cards
+                .filter(card => card.colorIdentity && card.colorIdentity
+                    .some(color => deck.commander.colorIdentity.includes(color)));
+   
+        cardsToDeck(filteredCards);
+        deck.cards = deck.cards.slice(0, 99);
+    }
+   
         if (this.nextHandler) {
             await this.nextHandler.handle(deck);
         }
