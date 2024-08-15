@@ -21,6 +21,7 @@ export class Deck {
 
     @Prop({ type: [Card], default: [] })
     cards: Card[];
+    deck: any[];
 }
 
 export const DeckSchema = SchemaFactory.createForClass(Deck);

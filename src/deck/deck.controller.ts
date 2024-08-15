@@ -7,13 +7,9 @@ export class DeckController {
         private readonly deckService: DeckService
     ) {}
 
-    @Get('cards')
-    async getCardsToDeck(color: String[]) {
-        return this.deckService.getCardsToDeck();
-    }
-
-    @Get('commander')
-    async chooseCommander() {
-        return this.deckService.chooseCommander();
+   
+    @Get('create')
+    async createDeck() {
+        return this.deckService.createDeck();
     }
 }

@@ -1,15 +1,25 @@
+import { SaveDeckHandler } from './handlers/saveDeck.handler';
 import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import CommonRequest from "src/common/request";
-import { Deck } from "./schema/deck.schema";
-import { Card } from "./schema/card.schema";
+import { ChooseCommanderHandler } from "./handlers/chooseCommander.handler";
+import { FilterCardsByColorHandler } from "./handlers/filterCardsByColor.handler";
+import { Deck } from './schema/deck.schema';
+
 
 @Injectable()
 export class DeckService {
     constructor(
-        @InjectModel(Deck.name) private deckModel: Model<Deck>,
-        private readonly commonRequest: CommonRequest
+        private readonly chooseCommanderHandler: ChooseCommanderHandler,
+        private readonly filterCardsByColor: FilterCardsByColorHandler,
+        private readonly saveDeck: SaveDeckHandler
     ) { }
+    
+    async createDeck() {
+        const deck = new Deck();
 
+        this.chooseCommanderHandler
+            .setNext(this.filterCardsByColor)
+            .setNext(this.saveDeck);
+        
+        await this.chooseCommanderHandler.handle(deck);
+    }
 }

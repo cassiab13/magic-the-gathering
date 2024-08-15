@@ -6,6 +6,9 @@ import { DeckService } from './deck/deck.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Deck, DeckSchema } from './deck/schema/deck.schema';
 import CommonRequest from './common/request';
+import { ChooseCommanderHandler } from './deck/handlers/chooseCommander.handler';
+import { FilterCardsByColorHandler } from './deck/handlers/filterCardsByColor.handler';
+import { SaveDeckHandler } from './deck/handlers/saveDeck.handler';
 
 @Module({
   imports: [
@@ -14,6 +17,6 @@ import CommonRequest from './common/request';
     MongooseModule.forFeature([{ name: Deck.name, schema: DeckSchema }]),
   ],
   controllers: [DeckController],
-  providers: [DeckService, CommonRequest],
+  providers: [DeckService, CommonRequest, ChooseCommanderHandler, FilterCardsByColorHandler, SaveDeckHandler],
 })
 export class AppModule {}
