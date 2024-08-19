@@ -9,12 +9,16 @@ import CommonRequest from './common/request';
 import { ChooseCommanderHandler } from './deck/handlers/chooseCommander.handler';
 import { FilterCardsByColorHandler } from './deck/handlers/filterCardsByColor.handler';
 import { SaveDeckHandler } from './deck/handlers/saveDeck.handler';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(`mongodb://0.0.0.0:27017/magic-the-gatering`),
     MongooseModule.forFeature([{ name: Deck.name, schema: DeckSchema }]),
+    AuthModule,
+    UsersModule,
   ],
   controllers: [DeckController],
   providers: [DeckService, CommonRequest, ChooseCommanderHandler, FilterCardsByColorHandler, SaveDeckHandler],
