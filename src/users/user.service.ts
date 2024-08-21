@@ -5,6 +5,7 @@ import { User } from './schema/user.schema';
 import { UserRepository } from './user.repository';
 import { UpdateUserDTO } from './dto/updateUserDTO';
 import UserAdapter from './user.adapter';
+import { HashPassword } from 'src/common/password';
 
 @Injectable()
 export class UserService extends CrudService<
@@ -26,7 +27,7 @@ export class UserService extends CrudService<
             }
         
             const user: User = this.adapter.createToEntity(newUser);
-            
+            user.password = await HashPassword.hashingPassword(user.password);
             await this.userRepository.create(user);
     }
 

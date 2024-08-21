@@ -11,6 +11,7 @@ import {
 
   import ICrudController from './interfaces/crud.controller';
 import { CrudService } from './crud.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
   @Controller()
   export class CrudController<T, CreateDTO extends T, UpdateDTO extends T>
@@ -26,6 +27,7 @@ import { CrudService } from './crud.service';
     }
   
     @Get()
+    @UseGuards(AuthGuard)
     async findAll(): Promise<T[]> {
       return this.service.findAll();
     }

@@ -27,9 +27,13 @@ export class CrudService<T, CreateDTO extends T, UpdateDTO extends T>
   }
 
   public async update(id: string, data: UpdateDTO): Promise<void> {
-    const existingEntity = await this.repository.findById(id);
-    const entity: T = this.adapter.updateToEntity(existingEntity, data);
-    this.repository.update(id, data);
+    try{
+      const existingEntity = await this.repository.findById(id);
+      const updatedEntity: T = this.adapter.updateToEntity(existingEntity, data);
+      this.repository.update(id, updatedEntity);
+    } catch (error) {
+      throw new NotFoundException(`Entity with id ${id} not found`)
+  }     
   }
 
   public async delete(id: string): Promise<void> {
@@ -38,7 +42,6 @@ export class CrudService<T, CreateDTO extends T, UpdateDTO extends T>
 
   protected async find(id: string): Promise<T> {
     const entity: T = await this.repository.findById(id);
-
     if (!entity) {
       throw new NotFoundException(`Entity ${id} not found.`);
     }

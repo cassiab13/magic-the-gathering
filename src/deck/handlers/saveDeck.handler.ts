@@ -14,8 +14,12 @@ export class SaveDeckHandler implements DeckHandler {
     }
 
     async handle(deck: Deck): Promise<void>{
+        const start = Date.now();
         await new this.deckModel(deck).save();
+        const end = Date.now();
 
         if (this.nextHandler) await this.nextHandler.handle(deck);
+        console.log("Tempo para salvar: ", (end - start)/1000)
     }
+    
 }

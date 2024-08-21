@@ -12,10 +12,10 @@ export class UserRepository extends CrudRepository <User>{
     
     public async findByUsernameOrEmail(
         email: string,
-        name: string,
+        username: string,
       ): Promise<User | null> {
         return this.userModel
-          .findOne({ $or: [{ email: email }, { username: name }] })
+          .findOne({ $or: [{ email: email }, { username: username }] })
           .exec();
       }
 }
