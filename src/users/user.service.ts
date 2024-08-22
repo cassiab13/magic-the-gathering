@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CrudService } from 'src/crud/crud.service';
+import { Injectable } from '@nestjs/common';
+import { CrudService } from '../crud/crud.service';
 import { CreateUserDTO } from './dto/createUserDTO';
 import { User } from './schema/user.schema';
 import { UserRepository } from './user.repository';
 import { UpdateUserDTO } from './dto/updateUserDTO';
 import UserAdapter from './user.adapter';
-import { HashPassword } from 'src/common/password';
+import { HashPassword } from '../common/password';
 
 @Injectable()
 export class UserService extends CrudService<
@@ -28,7 +28,7 @@ export class UserService extends CrudService<
         
             const user: User = this.adapter.createToEntity(newUser);
             user.password = await HashPassword.hashingPassword(user.password);
-            await this.userRepository.create(user);
+        await this.userRepository.create(user);
     }
 
     private async validateUsernameOrEmail(user: CreateUserDTO): Promise<User | null>{

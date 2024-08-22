@@ -19,8 +19,8 @@ describe('DeckService (e2e)', () => {
     module = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot(), 
-        MongooseModule.forRoot(`mongodb://0.0.0.0:27017/magic-the-gatering-TEST`), // Conecta ao MongoDB de teste
-        MongooseModule.forFeature([{ name: Deck.name, schema: DeckSchema }]), // Registra o esquema do Deck
+        MongooseModule.forRoot(`mongodb://0.0.0.0:27017/magic-the-gatering-TEST`), 
+        MongooseModule.forFeature([{ name: Deck.name, schema: DeckSchema }]),
       ],
       providers: [
         DeckService,
@@ -57,6 +57,7 @@ describe('DeckService (e2e)', () => {
       }];
       return await saveDeckHandler.handle(deck);
     });
+    
     jest.spyOn(saveDeckHandler, 'handle').mockImplementation(async (deck: Deck) => {
       return;
     });

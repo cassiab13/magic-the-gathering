@@ -8,18 +8,18 @@ import {
     Controller,
     UseGuards,
   } from '@nestjs/common';
-
-  import ICrudController from './interfaces/crud.controller';
+import ICrudController from './interfaces/crud.controller';
 import { CrudService } from './crud.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
+import { UpdateUserDTO } from 'src/users/dto/updateUserDTO';
 
   @Controller()
-  export class CrudController<T, CreateDTO extends T, UpdateDTO extends T>
+  export class CrudController<T extends UpdateUserDTO, CreateDTO extends T, UpdateDTO extends Partial<T>>
     implements ICrudController<T, CreateDTO, UpdateDTO>
   {
     constructor(
       protected readonly service: CrudService<T, CreateDTO, UpdateDTO>,
-    ) {}
+    ) { }
   
     @Post()
     create(@Body() body: CreateDTO): Promise<void> {
@@ -42,7 +42,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
       @Param('id') id: string,
       @Body() update: UpdateDTO,
     ): Promise<void> {
-      this.service.update(id, update);
+      await this.service.update(id, update);
     }
   
     @Delete(':id')

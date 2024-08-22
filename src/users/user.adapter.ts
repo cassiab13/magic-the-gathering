@@ -8,7 +8,7 @@ import { Injectable } from '@nestjs/common';
 export default class UserAdapter
   implements Adapter<User, CreateUserDTO, UpdateUserDTO>
 {
-  public updateToEntity(existingUser: User, dto: UpdateUserDTO): User {
+  public updateToEntity(existingUser: User, dto: Partial<UpdateUserDTO>): User {
     return {
       ...existingUser,
       ...dto

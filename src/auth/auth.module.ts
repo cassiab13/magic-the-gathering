@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserRepository } from 'src/users/user.repository';
+import { UserRepository } from '../users/user.repository';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema } from 'src/users/schema/user.schema';
-import { HashPassword } from 'src/common/password';
+import { UserSchema } from '../users/schema/user.schema';
+import { HashPassword } from '../common/password';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 

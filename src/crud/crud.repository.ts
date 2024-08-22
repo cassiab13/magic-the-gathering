@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, UpdateQuery } from 'mongoose';
 import ICrudRepository from './interfaces/crud.repository';
 import { Injectable } from '@nestjs/common';
 
@@ -18,10 +18,10 @@ export class CrudRepository<T> implements ICrudRepository<T> {
     await this.model.create(data);
   }
 
-  public async update(id: string, data: T): Promise<void> {
-    await this.model.findByIdAndUpdate(id, data);
+  public async update(id: string, data: UpdateQuery<T>): Promise<T | null> {
+    return this.model.findByIdAndUpdate(id, data, { new: true }).exec();
   }
-
+  
   public async delete(id: string): Promise<void> {
     await this.model.findByIdAndDelete(id);
   }

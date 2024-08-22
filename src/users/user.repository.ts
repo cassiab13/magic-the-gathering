@@ -1,7 +1,7 @@
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User } from "./schema/user.schema";
-import { CrudRepository } from "src/crud/crud.repository";
+import { CrudRepository } from "../crud/crud.repository";
 
 export class UserRepository extends CrudRepository <User>{
     constructor(
@@ -11,8 +11,8 @@ export class UserRepository extends CrudRepository <User>{
     }
     
     public async findByUsernameOrEmail(
-        email: string,
-        username: string,
+        email?: string,
+        username?: string,
       ): Promise<User | null> {
         return this.userModel
           .findOne({ $or: [{ email: email }, { username: username }] })

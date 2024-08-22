@@ -1,10 +1,10 @@
 import { UserService } from './user.service';
-import { CrudController } from "src/crud/crud.controller";
+import { CrudController } from "../crud/crud.controller";
 import { CreateUserDTO } from "./dto/createUserDTO";
 import { UpdateUserDTO } from "./dto/updateUserDTO";
 import { User } from "./schema/user.schema";
 import { Body, Controller, Delete, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 
 
 @Controller('users')
