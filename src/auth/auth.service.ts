@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { HashPassword } from '../common/password';
 import { UserRepository } from '../users/user.repository';
+import { Role } from '../roles/roles.enum';
 
 @Injectable()
 export class AuthService {
@@ -11,13 +12,14 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) { }
     
-    async signIn(usernameOrEmail: string, password: string): Promise<{access_token: string}>{
+    public async signIn(usernameOrEmail: string, password: string): Promise<{access_token: string}>{
         const user = await this.userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
         if (!user || !(await this.password.comparingPassword(password, user.password)))
         {
             throw new UnauthorizedException();
         }
-        const payload = { sub: user._id, username: user.username };
+        const payload = { sub: user._id, username: user.username, role: [user.roles] };
+        console.log("Payload", payload)
         return { access_token: await this.jwtService.signAsync(payload) }
     }
 }

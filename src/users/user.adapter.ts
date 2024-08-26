@@ -20,6 +20,7 @@ export default class UserAdapter
       email: dto.email,
       username: dto.username,
       password: dto.password,
+      roles: dto.roles
     } as User;
   }
 }

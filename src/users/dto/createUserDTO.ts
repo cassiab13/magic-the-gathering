@@ -1,6 +1,6 @@
-import { OmitType } from "@nestjs/mapped-types";
-import { IsAlphanumeric, IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
-import { User } from "../schema/user.schema";
+import { IsAlphanumeric, IsEmail, IsEnum, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { Role } from "../../roles/roles.enum";
+
 
 export class CreateUserDTO {
     
@@ -16,4 +16,7 @@ export class CreateUserDTO {
     @MinLength(8)
     @IsAlphanumeric()
     password: string;
+    
+    @IsEnum(Role, { each: true })
+    roles: Role[];
 }

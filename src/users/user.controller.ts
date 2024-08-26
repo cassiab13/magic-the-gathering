@@ -18,7 +18,7 @@ export class UserController extends CrudController<
     }
 
     @Post()
-    @UseGuards(AuthGuard)
+    // @UseGuards(AuthGuard)
     async create(@Body() createUserDTO: CreateUserDTO): Promise<void>{
         await this.userService.create(createUserDTO);
     }
