@@ -27,7 +27,7 @@ import { UpdateUserDTO } from 'src/users/dto/updateUserDTO';
     }
   
     @Get()
-    @UseGuards(AuthGuard)
+    // @UseGuards(AuthGuard)
     async findAll(): Promise<T[]> {
       return this.service.findAll();
     }

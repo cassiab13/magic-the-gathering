@@ -13,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AuthGuard } from './auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+// import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     AuthModule,
     UsersModule,
+    // CaslModule,
   ],
   controllers: [DeckController],
   providers: [DeckService, CommonRequest, ChooseCommanderHandler, FilterCardsByColorHandler, SaveDeckHandler, AuthGuard],

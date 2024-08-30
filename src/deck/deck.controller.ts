@@ -8,14 +8,13 @@ import { RolesGuard } from '../roles/roles.guard';
 @Controller('deck')
 export class DeckController {
     constructor(
-        private readonly deckService: DeckService
+        private readonly deckService: DeckService,
     ) {}
 
    
     @Get('create')
     @UseGuards(AuthGuard, RolesGuard)
-    @Roles(Role.User)
-   
+    @Roles(Role.USER)
     async createDeck() {
         return this.deckService.createDeck();
     }
