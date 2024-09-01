@@ -26,7 +26,8 @@ export class UserService extends CrudService<
               throw new Error("Usuário já existe");
             }
         
-            const user: User = this.adapter.createToEntity(newUser);
+        const user: User = this.adapter.createToEntity(newUser);
+        console.log(user)
             user.password = await HashPassword.hashingPassword(user.password);
         await this.userRepository.create(user);
     }

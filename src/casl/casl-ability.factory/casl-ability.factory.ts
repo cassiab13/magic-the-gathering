@@ -1,27 +1,34 @@
-// import { Ability, AbilityBuilder, AbilityClass, CreateAbility, createMongoAbility, ExtractSubjectType, InferSubjects } from "@casl/ability";
-// import { Injectable } from "@nestjs/common";
-// import { Permission } from "src/permissions/permissions.enum";
-// import { User } from "src/users/schema/user.schema";
+import { AbilityBuilder, createMongoAbility, MongoAbility, ExtractSubjectType, InferSubjects } from "@casl/ability";
+import { Injectable } from "@nestjs/common";
+import { Permission } from "../../permissions/permissions.enum";
+import { User } from "../../users/schema/user.schema";
+import { Role } from "src/roles/roles.enum";
 
-// type Subjects = InferSubjects<typeof Permission | typeof User> | 'all';
+export type Subjects = InferSubjects<typeof Permission | typeof User> | 'all' | 'Deck';
+export type Actions = 'create' | 'read' | 'update' | 'delete' | 'manage';
+export type AppAbility = MongoAbility<[Actions, Subjects]>;
 
-// export type AppAbility = Ability<[Permission, Subjects]>;
+@Injectable()
+export class CaslAbilityFactory {
+  createForUser(user: User): AppAbility {
+    console.log('User em Casl', user);
 
-// @Injectable()
-// export class CaslAbilityFactory {
-//   createForUser(user: User) {
-//     const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
+    const { can, cannot, build } = new AbilityBuilder<AppAbility>(createMongoAbility);
+    
+    // Assumindo que user.roles e user.permissions são arrays de strings
+    console.log('Roles em Casl', user.role);
+    
+    if (user.role.includes(Role.ADMIN)) {
+      can('manage', 'all');
+    } else {
+      can('read', 'all');
+      if (user.permission.includes(Permission.Create)) {
+        can('create', 'all');
+      }
+    }
 
-//     if (user.isAdmin) {
-//       can(Permission.Manage, 'all');
-//     } else {
-//       can(Permission.Read, 'all'); 
-//     }
-
-
-//     return build({
-//       detectSubjectType: (item) =>
-//         item.constructor as ExtractSubjectType<Subjects>,
-//     });
-//   }
-// }
+    return build({
+      detectSubjectType: item => item.constructor as ExtractSubjectType<typeof item>,
+    });
+  }
+}
